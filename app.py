@@ -60,7 +60,13 @@ def todo():
         task = request.form.get('task')
         if task:
             todos.append(task)
-    return render_template('todo.html', todos=todos)
+    return render_template('todo.html', tasks=todos)
+
+@app.route('/delete_task/<int:index>', methods=['POST'])
+def delete_task(index):
+    if 0 <= index < len(todos):
+        todos.pop(index)
+    return redirect(url_for('todo'))
 
 @app.route('/password_generator', methods=['GET', 'POST'])
 def password_generator():
