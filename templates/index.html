@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Python Mini Projects</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+  <div class="w-full max-w-2xl p-8 bg-white rounded-2xl shadow-lg">
+    <h1 class="text-3xl font-bold text-center text-indigo-600 mb-8">Python Mini Projects</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a href="{{ url_for('number_guesser') }}"
+         class="block bg-indigo-100 hover:bg-indigo-200 text-indigo-800 text-center p-6 rounded-lg shadow transition duration-200 font-semibold">
+        Number Guesser
+      </a>
+
+      <a href="{{ url_for('calculator') }}"
+         class="block bg-indigo-100 hover:bg-indigo-200 text-indigo-800 text-center p-6 rounded-lg shadow transition duration-200 font-semibold">
+        Calculator
+      </a>
+
+      <a href="{{ url_for('stopwatch') }}"
+         class="block bg-indigo-100 hover:bg-indigo-200 text-indigo-800 text-center p-6 rounded-lg shadow transition duration-200 font-semibold">
+        Stopwatch
+      </a>
+
+      <a href="{{ url_for('todo') }}"
+         class="block bg-indigo-100 hover:bg-indigo-200 text-indigo-800 text-center p-6 rounded-lg shadow transition duration-200 font-semibold">
+        To-Do List
+      </a>
+
+      <a href="{{ url_for('password_generator') }}"
+         class="block bg-indigo-100 hover:bg-indigo-200 text-indigo-800 text-center p-6 rounded-lg shadow transition duration-200 font-semibold">
+        Password Generator
+      </a>
+    </div>
+  </div>
+</body>
+</html>
