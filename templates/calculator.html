@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+  <div class="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg text-center">
+    <h1 class="text-2xl font-bold mb-4">Calculator</h1>
+
+    <form method="POST" class="space-y-4">
+      <div class="flex flex-col gap-2">
+        <input
+          type="number"
+          name="num1"
+          placeholder="Enter first number"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+        />
+        <input
+          type="number"
+          name="num2"
+          placeholder="Enter second number"
+          required
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+        />
+      </div>
+
+      <div class="flex justify-between flex-wrap gap-2">
+        <button name="operation" value="add" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg">Add</button>
+        <button name="operation" value="subtract" class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg">Subtract</button>
+        <button name="operation" value="multiply" class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg">Multiply</button>
+        <button name="operation" value="divide" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg">Divide</button>
+      </div>
+    </form>
+
+    {% if result is not none %}
+      <p class="mt-4 text-lg font-semibold text-gray-700">Result: {{ result }}</p>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="block mt-6 text-blue-500 hover:underline">Back to Home</a>
+  </div>
+</body>
+</html>

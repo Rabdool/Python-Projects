@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Stopwatch</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center">
+  <div class="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg text-center">
+    <h1 class="text-2xl font-bold mb-4">Stopwatch</h1>
+    
+    <div class="text-4xl font-mono mb-6" id="display">00:00:00</div>
+
+    <div class="flex justify-center gap-4">
+      <button 
+        onclick="startTimer()" 
+        class="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg font-semibold"
+      >
+        Start
+      </button>
+      <button 
+        onclick="stopTimer()" 
+        class="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-lg font-semibold"
+      >
+        Stop
+      </button>
+      <button 
+        onclick="resetTimer()" 
+        class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg font-semibold"
+      >
+        Reset
+      </button>
+    </div>
+
+    <a href="{{ url_for('home') }}" class="inline-block mt-6 text-blue-500 hover:underline"> Back to Home</a>
+  </div>
+
+  <script>
+    let startTime, interval;
+    let running = false;
+
+    function updateDisplay() {
+      const now = Date.now();
+      const elapsed = now - startTime;
+      const seconds = Math.floor((elapsed / 1000) % 60);
+      const minutes = Math.floor((elapsed / 60000) % 60);
+      const hours = Math.floor(elapsed / 3600000);
+
+      document.getElementById('display').textContent =
+        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      if (!running) {
+        startTime = Date.now() - (interval ? interval.elapsed : 0);
+        interval = setInterval(updateDisplay, 1000);
+        running = true;
+      }
+    }
+
+    function stopTimer() {
+      if (running) {
+        clearInterval(interval);
+        interval.elapsed = Date.now() - startTime;
+        running = false;
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(interval);
+      document.getElementById('display').textContent = '00:00:00';
+      interval = null;
+      running = false;
+    }
+  </script>
+</body>
+</html>

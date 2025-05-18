@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-100 flex items-center justify-center p-6">
+  <div class="w-full max-w-md bg-white p-6 rounded-2xl shadow-lg">
+    <h1 class="text-2xl font-bold mb-6 text-center">To-Do List</h1>
+
+    <form method="POST" class="flex gap-3 mb-6">
+      <input
+        type="text"
+        name="task"
+        placeholder="Add a new task"
+        required
+        class="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold"
+      >
+        Add
+      </button>
+    </form>
+
+    {% if tasks %}
+      <ul class="space-y-2">
+        {% for task in tasks %}
+          <li class="flex justify-between items-center bg-gray-50 px-4 py-2 rounded-lg shadow-sm">
+            <span>{{ task }}</span>
+            <form method="POST" action="{{ url_for('delete_task', index=loop.index0) }}">
+              <button
+                type="submit"
+                class="text-red-500 hover:text-red-700 font-bold"
+                aria-label="Delete task"
+              >
+                &times;
+              </button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-center text-gray-500">No tasks yet. Add one above!</p>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="block mt-6 text-center text-blue-500 hover:underline">
+        Back to Home
+    </a>
+  </div>
+</body>
+</html>
