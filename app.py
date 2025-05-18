@@ -4,12 +4,10 @@ import string
 
 app = Flask(__name__)
 
-# Home route
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Number Guesser
 @app.route('/number_guesser', methods=['GET', 'POST'])
 def number_guesser():
     target = 42
@@ -30,7 +28,6 @@ def number_guesser():
 
     return render_template('number_guesser.html', result=result, target=target, attempts=attempts)
 
-# Calculator
 @app.route('/calculator', methods=['GET', 'POST'])
 def calculator():
     result = None
@@ -51,12 +48,10 @@ def calculator():
             result = f"Error: {str(e)}"
     return render_template('calculator.html', result=result)
 
-# Stopwatch
 @app.route('/stopwatch')
 def stopwatch():
     return render_template('stopwatch.html')
 
-# To-Do List
 todos = []
 
 @app.route('/todo', methods=['GET', 'POST'])
@@ -67,7 +62,6 @@ def todo():
             todos.append(task)
     return render_template('todo.html', todos=todos)
 
-# Password Generator
 @app.route('/password_generator', methods=['GET', 'POST'])
 def password_generator():
     password = ""
