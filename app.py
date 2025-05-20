@@ -84,5 +84,10 @@ def dice_roller():
         result = random.randint(1, 6)
     return render_template('dice_roller.html', result=result)
 
+@app.route('/countdown_timer')
+def countdown_timer():
+    return render_template('countdown_timer.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
