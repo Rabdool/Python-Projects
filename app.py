@@ -77,5 +77,12 @@ def password_generator():
         password = ''.join(random.choice(characters) for _ in range(length))
     return render_template('password_generator.html', password=password)
 
+@app.route('/dice_roller', methods=['GET', 'POST'])
+def dice_roller():
+    result = None
+    if request.method == 'POST':
+        result = random.randint(1, 6)
+    return render_template('dice_roller.html', result=result)
+
 if __name__ == '__main__':
     app.run(debug=True)
