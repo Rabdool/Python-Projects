@@ -88,6 +88,35 @@ def dice_roller():
 def countdown_timer():
     return render_template('countdown_timer.html')
 
+@app.route('/currency_converter', methods=['GET', 'POST'])
+def currency_converter():
+    result = None
+    amount = 0
+    from_currency = to_currency = ''
+    
+    rates = {
+        'USD': 1.0,
+        'EUR': 0.92,
+        'GBP': 0.79,
+        'JPY': 146.5,
+        'NGN': 1600.0,
+    }
+
+    currencies = list(rates.keys())
+
+    if request.method == 'POST':
+        try:
+            amount = float(request.form['amount'])
+            from_currency = request.form['from_currency']
+            to_currency = request.form['to_currency']
+
+            converted = amount * (rates[to_currency] / rates[from_currency])
+            result = f"{amount:.2f} {from_currency} = {converted:.2f} {to_currency}"
+        except Exception as e:
+            result = f"Error: {str(e)}"
+
+    return render_template('currency_converter.html', result=result, currencies=currencies)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
