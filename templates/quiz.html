@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quiz App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-yellow-50 flex items-center justify-center p-6">
+  <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg text-center">
+    <h1 class="text-2xl font-bold text-yellow-600 mb-6">Quiz App</h1>
+
+    <form method="POST" class="space-y-4 text-left">
+      <p class="font-semibold text-lg">{{ question.question }}</p>
+
+      {% for option in question.options %}
+        <label class="block">
+          <input
+            type="radio"
+            name="option"
+            value="{{ option }}"
+            required
+            {% if selected == option %}checked{% endif %}
+            class="mr-2"
+          />
+          {{ option }}
+        </label>
+      {% endfor %}
+
+      <button
+        type="submit"
+        class="w-full mt-4 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-semibold"
+      >
+        Submit
+      </button>
+    </form>
+
+    {% if result %}
+      <p class="mt-4 text-lg font-medium text-yellow-700">{{ result }}</p>
+    {% endif %}
+
+    <a href="{{ url_for('home') }}" class="block mt-6 text-yellow-600 hover:underline">
+        Back to Home
+    </a>
+  </div>
+</body>
+</html>
