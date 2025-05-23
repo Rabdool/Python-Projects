@@ -39,7 +39,9 @@
       <p class="mt-4 text-lg font-semibold text-gray-700">Result: {{ result }}</p>
     {% endif %}
 
-    <a href="{{ url_for('home') }}" class="block mt-6 text-blue-500 hover:underline">Back to Home</a>
+    <button type="button" onclick="window.location.href='/'" class="w-full mt-4 bg-yellow-100 text-yellow-700 font-medium py-2 rounded-lg hover:bg-yellow-200 transition">
+        Back to Home
+    </button>
   </div>
 </body>
 </html>
