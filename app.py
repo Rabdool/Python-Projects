@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import random
 import string
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 todos = []
 
@@ -84,24 +85,87 @@ def dice_roller():
         result = random.randint(1, 6)
     return render_template('dice_roller.html', result=result)
 
+quiz_questions = [
+    {
+        "question": "What is the capital of France?",
+        "options": ["London", "Berlin", "Paris", "Rome"],
+        "answer": "Paris"
+    },
+    {
+        "question": "Which planet is known as the Red Planet?",
+        "options": ["Earth", "Venus", "Mars", "Jupiter"],
+        "answer": "Mars"
+    },
+    {
+        "question": "Who wrote 'Romeo and Juliet'?",
+        "options": ["William Shakespeare", "Leo Tolstoy", "Mark Twain", "Charles Dickens"],
+        "answer": "William Shakespeare"
+    },
+    {
+        "question": "Which element has the chemical symbol 'O'?",
+        "options": ["Gold", "Oxygen", "Iron", "Hydrogen"],
+        "answer": "Oxygen"
+    },
+    {
+        "question": "What is the largest ocean on Earth?",
+        "options": ["Atlantic", "Arctic", "Indian", "Pacific"],
+        "answer": "Pacific"
+    },
+    {
+        "question": "How many continents are there on Earth?",
+        "options": ["5", "6", "7", "8"],
+        "answer": "7"
+    },
+    {
+        "question": "In which year did World War II end?",
+        "options": ["1942", "1945", "1948", "1950"],
+        "answer": "1945"
+    },
+    {
+        "question": "Which is the smallest prime number?",
+        "options": ["0", "1", "2", "3"],
+        "answer": "2"
+    },
+    {
+        "question": "Who painted the Mona Lisa?",
+        "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+        "answer": "Leonardo da Vinci"
+    },
+    {
+        "question": "What is the boiling point of water in Celsius?",
+        "options": ["90°C", "95°C", "100°C", "105°C"],
+        "answer": "100°C"
+    }
+]
+
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
-    question = {
-        "question": "What is the capital of France?",
-        "options": ["Berlin", "London", "Paris", "Madrid"],
-        "answer": "Paris"
-    }
-    result = None
-    selected = None
+    if request.method == 'GET':
+        questions = random.sample(quiz_questions, 5)
+        session['quiz_questions'] = questions
+        return render_template('quiz.html', questions=questions)
 
-    if request.method == 'POST':
-        selected = request.form.get('option')
-        if selected == question['answer']:
-            result = "Correct!"
-        else:
-            result = f"Incorrect. The correct answer is {question['answer']}."
+    elif request.method == 'POST':
+        questions = session.get('quiz_questions', [])
+        results = []
+        score = 0
 
-    return render_template('quiz.html', question=question, result=result, selected=selected)
+        for i, q in enumerate(questions):
+            selected = request.form.get(f'q{i}')
+            correct = q['answer']
+            is_correct = selected == correct
+            if is_correct:
+                score += 1
+
+            results.append({
+                'question': q['question'],
+                'options': q['options'],
+                'correct': correct,
+                'selected': selected,
+                'is_correct': is_correct
+            })
+
+        return render_template('quiz_result.html', score=score, total=len(questions), results=results)
 
 if __name__ == '__main__':
     app.run(debug=True)
