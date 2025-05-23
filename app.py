@@ -13,21 +13,27 @@ def home():
 
 @app.route('/number_guesser', methods=['GET', 'POST'])
 def number_guesser():
-    target = 42
-    attempts = 0
     result = ""
 
     if request.method == 'POST':
-        guess = int(request.form['guess'])
-        target = int(request.form.get('target', 42))
-        attempts = int(request.form.get('attempts', 0)) + 1
-
-        if guess < target:
-            result = "Too low. Try again."
-        elif guess > target:
-            result = "Too high. Try again."
+        if 'reset' in request.form:
+            target = random.randint(1, 100)
+            attempts = 0
+            result = "Game has been reset. Try guessing the new number!"
         else:
-            result = f"Correct! You guessed it in {attempts} tries."
+            guess = int(request.form['guess'])
+            target = int(request.form['target'])
+            attempts = int(request.form['attempts']) + 1
+
+            if guess < target:
+                result = "Too low. Try again."
+            elif guess > target:
+                result = "Too high. Try again."
+            else:
+                result = f"Correct! You guessed it in {attempts} tries."
+    else:
+        target = random.randint(1, 100)
+        attempts = 0
 
     return render_template('number_guesser.html', result=result, target=target, attempts=attempts)
 
