@@ -4,6 +4,8 @@ import string
 
 app = Flask(__name__)
 
+todos = []
+
 @app.route('/')
 def home():
     return render_template('index.html')
@@ -24,7 +26,7 @@ def number_guesser():
         elif guess > target:
             result = "Too high. Try again."
         else:
-            result = f"🎉 Correct! You guessed it in {attempts} tries."
+            result = f"Correct! You guessed it in {attempts} tries."
 
     return render_template('number_guesser.html', result=result, target=target, attempts=attempts)
 
@@ -51,8 +53,6 @@ def calculator():
 @app.route('/stopwatch')
 def stopwatch():
     return render_template('stopwatch.html')
-
-todos = []
 
 @app.route('/todo', methods=['GET', 'POST'])
 def todo():
@@ -84,39 +84,24 @@ def dice_roller():
         result = random.randint(1, 6)
     return render_template('dice_roller.html', result=result)
 
-@app.route('/countdown_timer')
-def countdown_timer():
-    return render_template('countdown_timer.html')
-
-@app.route('/currency_converter', methods=['GET', 'POST'])
-def currency_converter():
-    result = None
-    amount = 0
-    from_currency = to_currency = ''
-    
-    rates = {
-        'USD': 1.0,
-        'EUR': 0.92,
-        'GBP': 0.79,
-        'JPY': 146.5,
-        'NGN': 1600.0,
+@app.route('/quiz', methods=['GET', 'POST'])
+def quiz():
+    question = {
+        "question": "What is the capital of France?",
+        "options": ["Berlin", "London", "Paris", "Madrid"],
+        "answer": "Paris"
     }
-
-    currencies = list(rates.keys())
+    result = None
+    selected = None
 
     if request.method == 'POST':
-        try:
-            amount = float(request.form['amount'])
-            from_currency = request.form['from_currency']
-            to_currency = request.form['to_currency']
+        selected = request.form.get('option')
+        if selected == question['answer']:
+            result = "Correct!"
+        else:
+            result = f"Incorrect. The correct answer is {question['answer']}."
 
-            converted = amount * (rates[to_currency] / rates[from_currency])
-            result = f"{amount:.2f} {from_currency} = {converted:.2f} {to_currency}"
-        except Exception as e:
-            result = f"Error: {str(e)}"
-
-    return render_template('currency_converter.html', result=result, currencies=currencies)
-
+    return render_template('quiz.html', question=question, result=result, selected=selected)
 
 if __name__ == '__main__':
     app.run(debug=True)
